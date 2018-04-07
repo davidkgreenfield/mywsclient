@@ -16,11 +16,11 @@ class App extends Component {
 
 
   connect(){
-      let socket = new SockJS("http://localhost:8080/sm-websocket");
+      let socket = new SockJS("http://localhost:8080/astronaut-websocket");
       stompClient = Stomp.over(socket);
       stompClient.connect({}, function (frame) {
           console.log('Connected: ' + frame);
-          stompClient.subscribe('/user/queue/prequalComplete', function (greeting) {
+          stompClient.subscribe('/user/queue/asyncComplete', function (greeting) {
               console.log("this is the response " + greeting.body);
           });
       });
@@ -29,7 +29,7 @@ class App extends Component {
 
   send(){
       let req_id = Date.now() + Math.random() + "org-id";
-      stompClient.send("/app/prequalStarted",{},req_id);
+      stompClient.send("/app/asyncStarted",{},req_id);
   }
 
   render() {
